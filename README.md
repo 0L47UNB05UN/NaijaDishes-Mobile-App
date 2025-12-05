@@ -160,5 +160,6 @@ This project is licensed under the GNU License - see the LICENSE file for detail
 * **Room** - For local data persistence
 
 * **Coil** - For efficient image loading
+* **Rich Text: com.mohamedrejeb.richeditor** - For excellent text editor
 
 Enjoy cooking with NaijaDishes! 🍲
