@@ -31,10 +31,21 @@ data class RegisterResponse(
 )
 
 @Serializable
+data class ValidationError(
+    val type: String,
+    val loc: List<String>,
+    val msg: String,
+    val input: String? = null,
+    val ctx: Map<String, String>? = null
+)
+@Serializable
+data class ValidationErrorResponse(
+    val detail: List<ValidationError>
+)
+@Serializable
 data class ErrorResponse(
     val detail: String
 )
-
 @Serializable
 data class UserProfile(
     val username: String,

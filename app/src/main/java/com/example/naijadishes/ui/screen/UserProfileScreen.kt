@@ -29,7 +29,6 @@ import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -140,18 +139,6 @@ private fun HandleErrorState(
     }
 }
 
-@Composable
-private fun LoadingState() {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        CircularProgressIndicator()
-        Spacer(modifier = Modifier.height(16.dp))
-        Text("Loading profile...")
-    }
-}
 
 @Composable
 private fun ErrorState(

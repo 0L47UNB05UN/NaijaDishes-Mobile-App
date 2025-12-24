@@ -1,7 +1,6 @@
 package com.example.naijadishes.network
 
 
-import com.example.naijadishes.model.Category
 import com.example.naijadishes.model.HomeScreenData
 import com.example.naijadishes.model.LoginRequest
 import com.example.naijadishes.model.LoginResponse
@@ -11,6 +10,7 @@ import com.example.naijadishes.model.RegisterResponse
 import com.example.naijadishes.model.SearchResponse
 import com.example.naijadishes.model.UserProfile
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -29,18 +29,16 @@ interface ApiService {
     suspend fun getTodaysRecipes(): Response<HomeScreenData>
     @GET("recipe/search")
     suspend fun search(@Query("query") query: String): Response<SearchResponse>
-    @GET("recipe/recipe_category")
-    suspend fun recipeCategory(@Query("cat") category: String): Response<List<Recipe>>
     @POST("user/user_profile")
     suspend fun getUserProfile(@Body username: String): Response<UserProfile>
     @Multipart
-    @POST("upload_recipe")
+    @POST("recipe/upload_recipe")
     suspend fun uploadRecipe(
-        @Part("name") name: String,
-        @Part("description") description: String,
-        @Part("ingredient") ingredient: Array<String>,
-        @Part("recipe") recipe: Array<String>,
-        @Part("best_paired") bestPaired: Array<String>,
-        @Part("category") category: Array<Category>,
+        @Part("name") name: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part ingredient: List<MultipartBody.Part>,
+        @Part recipe: List<MultipartBody.Part>,
+        @Part bestPaired: List<MultipartBody.Part>,
+        @Part category: List<MultipartBody.Part>,
         @Part image: MultipartBody.Part ): Response<Recipe>
 }

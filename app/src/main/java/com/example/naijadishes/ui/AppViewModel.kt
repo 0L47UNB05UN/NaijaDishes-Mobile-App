@@ -11,6 +11,7 @@ import com.example.naijadishes.ui.screen.HomeScreenViewModel
 import com.example.naijadishes.ui.screen.SearchScreenViewModel
 import com.example.naijadishes.ui.screen.LoginScreenViewModel
 import com.example.naijadishes.ui.screen.RegisterScreenViewModel
+import com.example.naijadishes.ui.screen.UploadScreenViewModel
 import com.example.naijadishes.ui.screen.UserProfileScreenViewModel
 
 
@@ -39,6 +40,11 @@ object AppViewModelProvider{
         }
         initializer {
             UserProfileScreenViewModel(
+                gNoteApplication().container.networkRepository,
+            )
+        }
+        initializer {
+            UploadScreenViewModel(
                 gNoteApplication().container.networkRepository,
             )
         }

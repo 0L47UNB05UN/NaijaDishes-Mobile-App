@@ -6,10 +6,20 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 enum class Category(val value: String) {
-    BREAKFAST("breakfast"),
-    LUNCH("lunch"),
-    DINNER("dinner")
+    @SerialName("breakfast") BREAKFAST("breakfast"),
+    @SerialName("lunch") LUNCH("lunch"),
+    @SerialName("dinner") DINNER("dinner")
 }
+@Serializable
+data class UploadRecipe(
+    val name: String,
+    val description: String,
+    val ingredient: List<String>,
+    val recipe: List<String>,
+    @SerialName("best_paired")
+    val bestPaired: List<String>,
+    val category: List<String>
+)
 
 @Serializable
 data class HomeScreenData(

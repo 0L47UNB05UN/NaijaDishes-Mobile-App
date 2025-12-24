@@ -43,6 +43,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -79,37 +80,42 @@ fun HomeScreen(
     onCreateRecipe: () -> Unit,
     onSearchClicked: () -> Unit
 ) {
-//    val uiState by appViewModel.uiState.collectsAsState()
-    HomeScreenContent(
-        appViewModel,
-        uiState = appViewModel.uiState,
-        onRetry = appViewModel::getTodaysRecipes,
-        backToLogin = backToLogin,
-        onClickRecipe = onClickRecipe,
-        onCreateRecipe = onCreateRecipe,
-        onSearchClicked = onSearchClicked
-    )
+    Scaffold(
+        topBar = {
+            HomeScreenTopBar(appViewModel, onSearchClicked = onSearchClicked)
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = onCreateRecipe) {
+                Icon(Icons.Default.Add, contentDescription = "Add Recipe")
+            }
+        }
+    ) {
+        paddingValues ->
+        HomeScreenContent(
+            uiState = appViewModel.uiState,
+            onRetry = appViewModel::getTodaysRecipes,
+            backToLogin = backToLogin,
+            onClickRecipe = onClickRecipe,
+            paddingValues = paddingValues
+        )
+    }
 }
 
 @Composable
 private fun HomeScreenContent(
-    appViewModel: HomeScreenViewModel,
     uiState: HomeScreenUiState,
     onRetry: () -> Unit,
     backToLogin: () -> Unit,
     onClickRecipe: (Recipe) -> Unit,
-    onCreateRecipe: () -> Unit,
-    onSearchClicked: () -> Unit,
+    paddingValues: PaddingValues,
     modifier: Modifier = Modifier
 ) {
     when (uiState) {
         is HomeScreenUiState.Success -> {
             HomeScreenSuccess(
-                appViewModel,
                 recipes = uiState.response.body(),
                 onClickRecipe = onClickRecipe,
-                onCreateRecipe = onCreateRecipe,
-                onSearchClicked = onSearchClicked,
+                paddingValues = paddingValues,
                 modifier = modifier
             )
         }
@@ -129,23 +135,14 @@ private fun HomeScreenContent(
 
 @Composable
 private fun HomeScreenSuccess(
-    appViewModel: HomeScreenViewModel,
     recipes: HomeScreenData?,
     onClickRecipe: (Recipe) -> Unit,
-    onCreateRecipe: () -> Unit,
-    onSearchClicked: () -> Unit,
+    paddingValues: PaddingValues,
     modifier: Modifier = Modifier
 ) {
-    Scaffold(
-        topBar = {
-            HomeScreenTopBar(appViewModel, onSearchClicked = onSearchClicked)
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = onCreateRecipe) {
-                Icon(Icons.Default.Add, contentDescription = "Add Recipe")
-            }
-        }
-    ) { paddingValues ->
+    Surface(
+        modifier = modifier
+    ) {
         HomeScreenContent(
             recipes = recipes,
             onClickRecipe = onClickRecipe,
@@ -552,7 +549,7 @@ private fun SectionHeader(
 }
 
 @Composable
-private fun LoadingState() {
+fun LoadingState() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,

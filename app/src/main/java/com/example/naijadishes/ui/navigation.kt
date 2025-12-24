@@ -16,6 +16,7 @@ import com.example.naijadishes.ui.screen.LoginScreen
 import com.example.naijadishes.ui.screen.RecipeScreen
 import com.example.naijadishes.ui.screen.RegisterScreen
 import com.example.naijadishes.ui.screen.SearchScreen
+import com.example.naijadishes.ui.screen.UploadScreen
 import com.example.naijadishes.ui.screen.UserProfileScreen
 
 sealed class Screen(val route: String) {
@@ -25,6 +26,7 @@ sealed class Screen(val route: String) {
     object Recipe: Screen("recipe")
     object Search: Screen("search")
     object UserProfile: Screen("user_profile")
+    object Upload: Screen("upload")
 }
 
 @Composable
@@ -71,7 +73,7 @@ fun AppNavHost(navController: NavHostController) {
                     }
                 },
                 onClickRecipe = { recipe = it; navController.navigate(Screen.Recipe.route) },
-                onCreateRecipe = {},//{navController.navigate(Screen.Note.route)}
+                onCreateRecipe = {navController.navigate(Screen.Upload.route)},
                 onSearchClicked = { navController.navigate(Screen.Search.route) },
             )
         }
@@ -99,6 +101,18 @@ fun AppNavHost(navController: NavHostController) {
         composable(Screen.UserProfile.route){
             UserProfileScreen(
                 username = user,
+                appViewModel = viewModel(factory = AppViewModelProvider.Factory),
+                backToLogin = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(Screen.Home.route) {
+                            inclusive = true
+                        }
+                    }
+                }
+            )
+        }
+        composable(Screen.Upload.route){
+            UploadScreen(
                 appViewModel = viewModel(factory = AppViewModelProvider.Factory),
                 backToLogin = {
                     navController.navigate(Screen.Login.route) {
